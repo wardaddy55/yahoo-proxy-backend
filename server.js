@@ -14,7 +14,12 @@ app.get('/stock/:symbol', async (req, res) => {
 
   try {
     const response = await axios.get(url);
-    res.json(response.data);
+    res.json({
+      serverTime: new Date().toISOString(), // 当前服务器时间
+      source: 'Yahoo Finance',
+      symbol: symbol.toUpperCase(),
+      data: response.data
+    });
   } catch (error) {
     res.status(500).json({ error: 'Error fetching data' });
   }
